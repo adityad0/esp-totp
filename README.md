@@ -2,9 +2,16 @@
 
 ## About
 
-## Getting started
+The ESP-TOTP is a Time-based one-time password (TOTP) generator written in Python (CircuitPython) for the SEEED XIAO ESP32-C3. TOTP is an extension for HMAC-based one-time passwords (HOTP). TOTPs are generated at regular intervals, have a fixed length and change with time. They can be generated offline, unlike traditional OTPs and eliminate the need for an active internet or mobile connection.
 
 ## Components
+1. A microcontroller such as the SEEED XIAO ESP32-C3
+2. SSD1306 OLED display
+3. Pushbuttons
+4. Wires
+5. Li-ion battery
+
+## Getting started
 
 ## Program
 
