@@ -7,15 +7,16 @@ The ESP-TOTP is a Time-based one-time password (TOTP) generator written in Pytho
 ## Components
 1. A microcontroller such as the SEEED XIAO ESP32-C3
 2. SSD1306 OLED display
-3. Pushbuttons
+3. Rotary encoder
 4. Wires
 5. Li-ion battery
 
 ## Getting started
 
-## Program
+## Program description
 
 ## Future updates
+1. An app to connect to the device over Bluetooth/Wi-Fi to add new TOTP secrets and sync time.
 
 ## Resources
 1. https://learn.adafruit.com/circuitpython-totp-otp-2fa-authy-authenticator-friend/software
