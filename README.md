@@ -27,6 +27,7 @@ The ESP-TOTP is a Time-based one-time password (TOTP) generator written in Pytho
 6. https://circuitpython.org/board/seeed_xiao_esp32c3/
 7. https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/
 8. https://stackoverflow.com/questions/8529265/google-authenticator-implementation-in-python
+9. https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
 
 ## License
 This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Lincense. Read the license here: https://github.com/adityad0/esp-totp/blob/main/LICENSE
