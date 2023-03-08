@@ -1,1 +1,1 @@
-
+app_name,secretkey,is_b32_encoded,display_app_name,otp_len,otp_type,otp_alg,refresh_time_secs
