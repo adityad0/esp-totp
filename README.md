@@ -11,39 +11,51 @@ The ESP-TOTP is a Time-based one-time password (TOTP) generator written in Pytho
 4. Wires
 5. Li-ion battery
 
+## Circuit digram
+![image](https://user-images.githubusercontent.com/86013163/223758812-5c91fe6a-9295-4a2a-9476-c2dce9e1710a.png)
+
+
+## Design and prototype
+
+The prototype for this project uses a small plastic box measuring approximately 8cm x 4cm x 2.5cm which houses all components within it. The OLED display and the rotary encoder are in the front of the device, with the display at the top, followed by the rotary encoder below it. The USB-C port of the microcontroller is accessible at the bottom of the device and allows easy access for programming and updating the device or adding new TOTP apps.
+
+![image](https://user-images.githubusercontent.com/86013163/223758898-0efb3d62-09ee-412a-9708-385816dc200a.png)
+
+
 ## Getting started
+
 ### 1. Installing CircuitPython
-  a. Connect your microcontroller to your computer and find the port name or number. On Windows, use Device Manager to find the port.
-  b. Use PIP to install 'esptool' by running the command, `pip install esptool.`
-  c. Use `esptool --port COM10 erase_flash` to erase the flash on your microcontroller and replace 10 with the port of your device. Prefix `python -m ` if the above command does not work.
-  d. Use `esptool --port COM10 write_flash -z 0x0 firmware_file_name.bin` to install the firmware to the microcontroller flash.
-  e. Once CircuitPython is installed, use a software like Putty to connect to the Python shell with the correct port name/number and baud rate (Default baud 115200).
+  * Connect your microcontroller to your computer and find the port name or number. On Windows, use Device Manager to find the port.
+  * Use PIP to install 'esptool' by running the command, `pip install esptool.`
+  * Use `esptool --port COM10 erase_flash` to erase the flash on your microcontroller and replace 10 with the port of your device. Prefix `python -m ` if the above command does not work.
+  * Use `esptool --port COM10 write_flash -z 0x0 firmware_file_name.bin` to install the firmware to the microcontroller flash.
+  * Once CircuitPython is installed, use a software like Putty to connect to the Python shell with the correct port name/number and baud rate (Default baud 115200).
 ### 2. Connecting to Wi-Fi
-  a. You can connect to Wi-Fi from the Python shell by importing the 'wifi' module or by creating a file called 'settings.toml'.
-  b. Create a filled called 'settings.toml' using the Python shell by running the following commands, 'f = open("settings.toml", "w+");'.
-  c. Now, write the Wi-Fi SSID, password and API password to the file by using, `f.write('CIRCUITPY_WIFI_SSID = "SSID"\n')`, `f.write('CIRCUITPY_WIFI_PASSWORD = "password"\n')` and `f.write('CIRCUITPY_WEB_API_PASSWORD = "api password"\n')`.
-  d. Save and close the file by using `f.close()`. The device will now automatically connect to the specified Wi-Fi network.
+  * You can connect to Wi-Fi from the Python shell by importing the 'wifi' module or by creating a file called 'settings.toml'.
+  * Create a filled called 'settings.toml' using the Python shell by running the following commands, 'f = open("settings.toml", "w+");'.
+  * Now, write the Wi-Fi SSID, password and API password to the file by using, `f.write('CIRCUITPY_WIFI_SSID = "SSID"\n')`, `f.write('CIRCUITPY_WIFI_PASSWORD = "password"\n')` and `f.write('CIRCUITPY_WEB_API_PASSWORD = "api password"\n')`.
+  * Save and close the file by using `f.close()`. The device will now automatically connect to the specified Wi-Fi network.
 ### 3. Finding the IP address and getting getting started with the web server
-  a. Use `import wifi` and `print(wifi.radio.ipv4_address)` to print the device IPv4 address. Use this IP on your browser to connect to the microcontroller's inbuilt web server.
-  b. Use the password which you set in the 'settings.toml' file under `CIRCUITPY_WEB_API_PASSWORD` but leave the username field blank.
-  c. You can now upload your code directly from your browser. Name the program 'code.py' to automatically run the program on device startup.
+  * Use `import wifi` and `print(wifi.radio.ipv4_address)` to print the device IPv4 address. Use this IP on your browser to connect to the microcontroller's inbuilt web server.
+  * Use the password which you set in the 'settings.toml' file under `CIRCUITPY_WEB_API_PASSWORD` but leave the username field blank.
+  * You can now upload your code directly from your browser. Name the program 'code.py' to automatically run the program on device startup.
 ### 4. Uploading and running the program
-  a. Clone the repository or download a zip file containing all files available here, https://github.com/adityad0/esp-totp/
-  b. Upload all the files to the microcontroller in the appropriate directories.
+  * Clone the repository or download a zip file containing all files available here, https://github.com/adityad0/esp-totp/
+  * Upload all the files to the microcontroller in the appropriate directories.
 
 ## Program working and description
 
 The program has been broken down into 9 essential sections followed by an explanation of every section below.
 
-1.	Display & I2C controller
-2.	App secret handler
-3.	Rotary Encoder controller
-4.	BASE32 decoder
-5.	HMAC generator
-6.	HOTP & TOTP generator
-7.	Wi-Fi controller
-8.	Real-Time Clock (RTC) controller
-9.	SHA1 Hash generator
+1. Display & I2C controller
+2. App secret handler
+3. Rotary Encoder controller
+4. BASE32 decoder
+5. HMAC generator
+6. HOTP & TOTP generator
+7. Wi-Fi controller
+8. Real-Time Clock (RTC) controller
+9. SHA1 Hash generator
 
 The above program sections are described below,
 
@@ -56,7 +68,7 @@ The above program sections are described below,
   
 ### 3.	Rotary Encoder Controller
   The CLK pin, DT pin and SW pins of the rotary encoder are connected to pins D10, D9 and D8 respectively. 'board.PIN' is used to refer to the pins on the microcontroller, and the 'digitalio' module is used to get the status of the used pins.
-	The rotary encoder is powered by 3.3 volts. When rotated clockwise, `the CLK pin connects to GND before the DT pin, and anti-clockwise when the DT pin connects to GND before the CLK pin. When rotated, the rotary encoder generates a square wave 90° out of phase and can be determined in programming when `B != A` for clockwise and `B = A` for anti-clockwise, where `B` is DT and `A` is CLK. Repeatedly checking the pins for a change in the voltage (HIGH or LOW) allows us to determine the rotation of the rotary encoder, and can easily be accomplished with a `while` loop.
+	The rotary encoder is powered by 3.3 volts. When rotated clockwise, the CLK pin connects to GND before the DT pin, and anti-clockwise when the DT pin connects to GND before the CLK pin. When rotated, the rotary encoder generates a square wave 90° out of phase and can be determined in programming when `B != A` for clockwise and `B = A` for anti-clockwise, where B is DT and A is CLK. Repeatedly checking the pins for a change in the voltage (HIGH or LOW) allows us to determine the rotation of the rotary encoder, and can easily be accomplished with a `while` loop.
 
 ### 4.	BASE32 Decoder
   The BASE32 decoder function, defined as `b32decode()`, is used to convert binary to text. BASE32 uses a set of 32 characters represented as a 5-bit binary value. Each character represents one of 32 characters (A-Z & 2-7). Base32 representation is done by dividing a string into groups of 5 characters each and adding zero bits (=) at the end of the string if the length of the string is not divisible by 5, before encoding.
@@ -68,8 +80,8 @@ The `b32decode` function in this program first converts the encoded string back 
 
 ### 6.	HOTP and TOTP Generator
   HMAC-based One-Time Password (HOTP) is a one-time password algorithm based on HMAC to generate a One-Time Password (OTP) valid only for a single authentication attempt by combining a secret key and a counter value.
-  •	A secret key and counter value are generated and shared between the authentication server and the user.
-  •	The HMAC value is truncated to generate a 6-digit one-time password.
+  - A secret key and counter value are generated and shared between the authentication server and the user.
+  - The HMAC value is truncated to generate a 6-digit one-time password.
 
 ### 7.	Wi-Fi Controller
   The `radio` class of the `wifi` module is used to connect to a Wi-Fi using the `connect` method. The `ipv4_address` and `ap_info.ssid` methods are used to get the IPv4 address and SSID/Name (Service Set ID) of the device when connected to a Wi-Fi network. The device runs a simple web server on port 80 and can be used to add new secret keys to the device or program the device. The web server also provides a serial connection to the inbuilt Python interpreter which allows you to restart the program on the device or to update the libraries.
@@ -79,21 +91,29 @@ The `b32decode` function in this program first converts the encoded string back 
 	The `time` module contains a method `time()`, used to get the number of seconds which have passed since January 1st, 1970 and is called Epoch or Unix time. This time is used to generate the TOTP.
 
 ### 9.	SHA-1 Hash Generator
-  SHA-1 is a one-time hashing algorithm, it produces a unique and fixed-length string for the input and can be used for verifying the authenticity of data. Although SHA-1 is not considered as secure as SHA-256 or SHA-512, it is, but not always used to generate a TOTP. The `adafruit_hashlib` contains an SHA-1 library to generate an SHA-1 of the input string. This string is then used in the previous functions to generate HMAC and HOTP.
+  SHA-1 is a one-way hashing algorithm, it produces a unique and fixed-length string for the input and can be used for verifying the authenticity of data. Although SHA-1 is not considered as secure as SHA-256 or SHA-512, it is, but not always used to generate a TOTP. The `adafruit_hashlib` contains an SHA-1 library to generate an SHA-1 of the input string. This string is then used in the previous functions to generate HMAC and HOTP.
 
 ## Future updates
 1. An app to connect to the device over Bluetooth/Wi-Fi to add new TOTP secrets and sync time.
 
-## Resources
-1. https://learn.adafruit.com/circuitpython-totp-otp-2fa-authy-authenticator-friend/software
-2. https://medium.com/analytics-vidhya/understanding-totp-in-python-bbe994606087
-3. https://totp.danhersam.com/
-4. https://github.com/adityad0/hacktag
-5. https://learn.adafruit.com/circuitpython-with-esp32-quick-start/command-line-esptool
-6. https://circuitpython.org/board/seeed_xiao_esp32c3/
-7. https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/
-8. https://stackoverflow.com/questions/8529265/google-authenticator-implementation-in-python
-9. https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
+## Resources, references and other documentation
+* SEEED Studios documentation: https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/
+* Code repository: https://github.com/adityad0/esp-totp/
+* ESP32: https://en.wikipedia.org/wiki/ESP32
+* I2C Protocol: https://en.wikipedia.org/wiki/I%C2%B2C
+* ESP32-C3 Datasheet: https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf
+* Understanding TOTP in Python: https://medium.com/analytics-vidhya/understanding-totp-in-python-bbe994606087
+* Simple web TOTP generator: https://totp.danhersam.com/
+* MicroPython based TOTP generator: https://learn.adafruit.com/circuitpython-totp-otp-2fa-authy-authenticator-friend/software
+* Command line ESP Tool: https://learn.adafruit.com/circuitpython-with-esp32-quick-start/command-line-esptool
+* CircuitPython for Seeed XIAO ESP32-C3: https://circuitpython.org/board/seeed_xiao_esp32c3/
+* Stackoverflow Google authentication implementer in Python: https://stackoverflow.com/questions/8529265/google-authenticator-implementation-in-python
+* Rotary encoder working and C programming tutorial for Arduino: https://lastminuteengineers.com/rotary-encoder-arduino-tutorial/
+* TOTP on Wikipedia: https://en.wikipedia.org/wiki/Time-based_one-time_password
+* HOTP on Wikipedia: https://en.wikipedia.org/wiki/HMAC-based_one-time_password
+* HMAC on Wikipedia: https://en.wikipedia.org/wiki/HMAC
+* SSD1306 Datasheet: https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
+
 
 ## License
-This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Lincense. Read the license here: https://github.com/adityad0/esp-totp/blob/main/LICENSE
+This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License. For full license terms, visit https://github.com/adityad0/esp-totp/blob/main/LICENSE or https://creativecommons.org/licenses/by-sa/4.0/legalcode
