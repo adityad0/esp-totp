@@ -1,5 +1,7 @@
 # ESP-TOTP
 
+ESP-TOTP is a project to generate Time-based one-time passwords written in CircuitPython and powered by the ESP32-C3 with Wi-Fi and Bluetooth support.
+
 ## About
 
 The ESP-TOTP is a Time-based one-time password (TOTP) generator written in Python (CircuitPython) for the SEEED XIAO ESP32-C3. TOTP is an extension for HMAC-based one-time passwords (HOTP). TOTPs are generated at regular intervals, have a fixed length and change with time. They can be generated offline, unlike traditional OTPs and eliminate the need for an active internet or mobile connection.
